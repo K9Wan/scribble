@@ -15,14 +15,13 @@ def fivesmooth():
         i2 += n2 == min(n2, n3, n5)
         i3 += n3 == min(n2, n3, n5)
         i5 += n5 == min(n2, n3, n5)
- 
+
 def a(n):
-	a=fivesmooth()
-	while True:
-		aa=next(a)
-		if aa>n:
-			break
-		yield aa
+    a=fivesmooth()
+    while True:
+        aa=next(a)
+        if aa>n:
+            break
+        yield aa
  
-for i in a(10000):
-	print(f'{i}, ',end='')
+print(tuple([*a(10000)]))
