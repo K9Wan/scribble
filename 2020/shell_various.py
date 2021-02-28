@@ -25,6 +25,8 @@ intervals_list=[
     #reversed((1, 2, 3, 4, 6, 9, 16, 24, 25, 64, 120, 125, 216, 625, 720, 1296, 2401, 5040))
 ]
 
+## https://oeis.org/A036561
+
 intervals_list=[*map(list, intervals_list)]
 
 counts = [0]*len(intervals_list)
