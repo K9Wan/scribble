@@ -26,3 +26,5 @@ def a(n):
         yield aa
  
 print(tuple([*a(10000)]))
+
+## https://oeis.org/A051037
