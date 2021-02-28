@@ -11,10 +11,11 @@ def fivesmooth():
         n2 = 2 * S[i2]
         n3 = 3 * S[i3]
         n5 = 5 * S[i5]
-        S.append(min(n2, n3, n5))
-        i2 += n2 == min(n2, n3, n5)
-        i3 += n3 == min(n2, n3, n5)
-        i5 += n5 == min(n2, n3, n5)
+        m = min(n2, n3, n5)
+        S.append(m)
+        i2 += n2 == m
+        i3 += n3 == m
+        i5 += n5 == m
 
 def a(n):
     a=fivesmooth()
