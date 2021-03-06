@@ -20,7 +20,7 @@ b = []
 p(b, 3000)
 print(b)
  
-def pp(arr, m, b=[1]):
+def pp(arr, m, b=[1]):	# shouldn't use arguments like this
 	while True:
 		n = b.pop(0)
 		if n>m: break
