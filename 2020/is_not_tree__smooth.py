@@ -32,3 +32,25 @@ def pp(arr, m, b=[1]):
 c = []
 pp(c, 3000)
 print(c)
+
+c = []
+pp(c, 3000, [10])
+print(c)
+
+def pp2(m=None, arr=None, b=None):
+	if m is None:
+		from math import inf
+		m=inf
+	if not arr: arr=[]
+	if not b: b=[1]
+	while True:
+		n = b.pop(0)
+		if n>m: break
+		if n not in arr:
+			arr.append(n)
+			yield arr[-1]
+		b.insert(0, 2*n)
+		b.insert(0, 3*n)
+		b.sort()
+
+print([*pp2(1234)])
