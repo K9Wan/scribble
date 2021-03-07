@@ -7,8 +7,7 @@ for(let tc of testcases){
 /*/
 results = Array.from('3333222222222').map(Number);
 
-function median(arr){
-    [a,b,c]=arr
+function median(a,b,c){
     if (a<b) {
         if (b<c) {
             return b;
@@ -26,4 +25,4 @@ function median(arr){
     }
 }
 
-console.log(testcases.map(median).toString() == results)
+console.log(testcases.map(arr => median(...arr)).toString() == results)
