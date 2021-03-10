@@ -24,3 +24,7 @@ def prime1(n):
         if isprime:
             primes.append(i)
     yield from primes
+
+def prime2(n):
+    yield from filter(is_prime, range(2, n+1))
+
