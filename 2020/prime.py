@@ -30,3 +30,16 @@ def prime1(n):
 def prime2(n):
     yield from filter(is_prime, range(2, n+1))
 
+def prime3(n):  ## original from https://www.linkedin.com/pulse/sieve-eratosthenes-kotlin-john-farrell
+    import itertools as it
+    def sieve(p, seq):
+        for i in seq:
+            if i%p:
+                yield i
+    primes = it.count(2)
+    while True:
+        p = next(primes)
+        if p>n: break
+        yield p
+        primes = sieve(p, primes)
+
