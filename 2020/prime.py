@@ -18,9 +18,9 @@ def prime1(n):
         primes.append(3)
     for i in range(5,n+1,2):
         isprime=True
-        #sqrt = i ** 0.5
+        sqrt = int(i ** 0.5)
         for p in primes:
-            #if p > sqrt: break
+            if p > sqrt: break
             if i%p == 0:
                 isprime=False
         if isprime:
@@ -43,3 +43,16 @@ def prime3(n):  ## original from https://www.linkedin.com/pulse/sieve-eratosthen
         yield p
         primes = sieve(p, primes)
 
+def prime1_2(n):
+    primes = []
+    if n>=2:
+        primes.append(2)
+    if n>=3:
+        primes.append(3)
+    for i in range(5,n+1,2):
+        for p in primes:
+            if i%p == 0:
+                break
+        else:
+            primes.append(i)
+    yield from primes
