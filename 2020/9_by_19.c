@@ -25,5 +25,8 @@ int main(void)
     }
     putchar(10);
   }
+  
+  free(p);
+  
   return 0;
 }
