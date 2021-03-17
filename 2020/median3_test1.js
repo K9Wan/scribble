@@ -26,3 +26,4 @@ function median(a,b,c){
 }
 
 console.log(testcases.map(arr => median(...arr)).toString() == results)
+console.log(testcases.map(arr => median(...arr)).every((v,i) => v==results[i]))
