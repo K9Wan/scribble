@@ -5,14 +5,13 @@ class Node(object):
 
 
 class BinarySearchTree(object):
-    keyfunc = lambda x: x  # Will it be worse when using lambda x: x as default?
+    keyfunc = lambda x: x
 
     def __init__(self, node=None):
         self.root = node
         if node is not None:
             self.left = __class__()
             self.right = __class__()
-        # I don't want default to be NoneType, but don't know how for now.
 
     def add(self, key, data=None):
         node = Node(key, data)
