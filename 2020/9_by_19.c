@@ -7,7 +7,7 @@ int main(void)
   int * * p = malloc(sizeof(*p) * h + sizeof(**p) * h * w);
   for(int i=0; i<h; i++)
   {
-    p[i] = (char *)(p+h)+sizeof **p * i * w;
+    p[i] = (void *)((char *)(p+h)+sizeof **p * i * w);
   }
   
   for(int i=0;i<h;i++)
