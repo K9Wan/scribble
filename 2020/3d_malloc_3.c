@@ -8,13 +8,7 @@ int main(void)
   for(int i=0; i<x; i++)
   {
     a[i] = (void *)((char *)(a+x) + sizeof **a*i*y);
-  }
-  for(int i=0; i<x; i++)
-  {
     a[i][0] = (void *)((char *)(a[0] + x*y) + sizeof ***a*i*z);
-  }
-  for(int i=0; i<x; i++)
-  {
     for(int j=0; j<y; j++)
     {
       a[i][j] = a[i][0] + j*x*z;
