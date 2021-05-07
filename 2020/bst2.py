@@ -5,25 +5,24 @@ class Node(object):
 
 
 class BinarySearchTree(object):
-    keyfunc = lambda x: x
-
-    def __init__(self, node=None):
+    def __init__(self, node=None, keyfunc=lambda x: x):
         self.root = node
+        self.keyfunc = keyfunc
         if node is not None:
-            self.left = __class__()
-            self.right = __class__()
+            self.left = __class__(keyfunc=self.keyfunc)
+            self.right = __class__(keyfunc=self.keyfunc)
 
     def add(self, key, data=None):
         node = Node(key, data)
         if self.root is None:
             self.root = node
-            self.left = __class__()
-            self.right = __class__()
+            self.left = __class__(keyfunc=self.keyfunc)
+            self.right = __class__(keyfunc=self.keyfunc)
             return
         parent = self.root.key
-        if __class__.keyfunc(key) < __class__.keyfunc(parent):
+        if self.keyfunc(key) < self.keyfunc(parent):
             self.left.add(key, data)
-        elif __class__.keyfunc(key) > __class__.keyfunc(parent):
+        elif self.keyfunc(key) > self.keyfunc(parent):
             self.right.add(key, data)
 
     def inorder(self):
