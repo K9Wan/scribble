@@ -10,7 +10,7 @@ int main(void)
     a[i] = (void *)((char *)(a+x) + sizeof **a*i*y);
     for(int j=0; j<y; j++)
     {
-      a[i][j] = (void *)((char *)(a[0] + x*y) + sizeof ***a*(i*z + j*x*z));
+      a[i][j] = (void *)((char *)(a[0] + x*y) + sizeof ***a*(i*y*z + j*z));	// i*y*z + j*z, i*z + j*x*z both works, but will have different mapping: horizontal and vertical
     }
   }
 
