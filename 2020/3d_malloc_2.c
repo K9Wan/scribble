@@ -8,10 +8,9 @@ int main(void)
   for(int i=0; i<x; i++)
   {
     a[i] = (int **)(a+x) + i*y;
-    a[i][0] = (int *)(a[0] + x*y) + i*z;
     for(int j=0; j<y; j++)
     {
-      a[i][j] = a[i][0] + j*x*z;
+      a[i][j] = (int *)(a[0] + x*y) + i*z + j*x*z;
     }
   }
 
