@@ -4,7 +4,7 @@
 int main(void)
 {
   int x = 4, y = 7, z = 9, w = 6;
-  double **** a = malloc(sizeof * a * x + sizeof * * a * x * y + sizeof * * * a * x * y * z + sizeof * * * * a * x * y * z * w);
+  int **** a = malloc(sizeof * a * x + sizeof * * a * x * y + sizeof * * * a * x * y * z + sizeof * * * * a * x * y * z * w);
   for(int i=0; i<x; i++)
   {
     a[i] = (void *)((char *)(a+x) + sizeof **a*i*y);
@@ -40,7 +40,7 @@ int main(void)
       {
         for(int l=0; l<w; l++)
         {
-          printf("%5.0lf", a[i][j][k][l]);
+          printf("%5i", a[i][j][k][l]);
         }
         putchar(10);
       }
