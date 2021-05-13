@@ -7,6 +7,7 @@ class Node(object):
         '''
         can't find appropriate name:
         get derive gain take generate yield obtain take return ...
+        retrieve release discharge bring fetch pick invoke pull ...
         value data pair ...
         adaptable flexible custom ...
         '''
@@ -31,6 +32,15 @@ class BinarySearchTree(object):
         if node is not None:
             self.left = self.new_empty()
             self.right = self.new_empty()
+
+    def kf(self, key):
+        try:
+            f = self.keyfunc(key) > self.keyfunc(key)
+            f = self.keyfunc(key) < self.keyfunc(key)
+            return self.keyfunc(key)
+        except Exception as e:
+            print('invalid key')
+            raise e
 
     def __bool__(self):
         return self.root is not None
@@ -57,19 +67,19 @@ class BinarySearchTree(object):
         or can consider it as wrong
         '''
 
-    def _contains(self, key):
+    def find(self, key):
         if not self:
-            return False
+            return None
         current = self.root.key
         if current == key:
-            return True
-        elif self.keyfunc(key) < self.keyfunc(current):
-            return self.left._contains(key)
-        elif self.keyfunc(key) > self.keyfunc(current):
-            return self.right._contains(key)
+            return self.root.noname1()
+        elif self.kf(key) < self.kf(current):
+            return self.left.find(key)
+        elif self.kf(key) > self.kf(current):
+            return self.right.find(key)
 
     def __contains__(self, key):
-        return self._contains(key)
+        return self.find(key) is not None
 
     def print_inorder(self):
         if self:
