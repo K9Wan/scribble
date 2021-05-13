@@ -1,4 +1,3 @@
-# help from https://stackoverflow.com/questions/67285277/recursive-class-definition-in-python
 class Node(object):
     def __init__(self, key=None, data=None):
         self.key = key
@@ -57,6 +56,20 @@ class BinarySearchTree(object):
         (sure can replace elif above with else, or replace > with >=)
         or can consider it as wrong
         '''
+
+    def _contains(self, key):
+        if not self:
+            return False
+        current = self.root.key
+        if current == key:
+            return True
+        elif self.keyfunc(key) < self.keyfunc(current):
+            return self.left._contains(key)
+        elif self.keyfunc(key) > self.keyfunc(current):
+            return self.right._contains(key)
+
+    def __contains__(self, key):
+        return self._contains(key)
 
     def print_inorder(self):
         if self:
