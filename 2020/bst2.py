@@ -39,8 +39,7 @@ class BinarySearchTree(object):
             f = self.keyfunc(key) < self.keyfunc(key)
             return self.keyfunc(key)
         except Exception as e:
-            print('invalid key')
-            raise e
+            raise KeyError(key) from e
 
     def __bool__(self):
         return self.root is not None
@@ -93,9 +92,19 @@ class BinarySearchTree(object):
             yield self.root.noname1()
             yield from self.right.inorder()
 
-    def preorder(self): pass
+    def preorder(self):
+        if self:
+            yield self.root.noname1()
+            yield from self.left.inorder()
+            yield from self.right.inorder()
 
-    def postorder(self): pass
+
+    def postorder(self):
+        if self:
+            yield from self.left.inorder()
+            yield from self.right.inorder()
+            yield self.root.noname1()
+
 
     
 
