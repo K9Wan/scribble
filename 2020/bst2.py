@@ -73,7 +73,7 @@ class BinarySearchTree(object):
             return None
         current = self.root.key
         if current == key:
-            return self.root.noname1()
+            return self.noname_root()
         elif self.kf(key) < self.kf(current):
             return self.left.find(key)
         elif self.kf(key) > self.kf(current):
@@ -91,12 +91,12 @@ class BinarySearchTree(object):
     def inorder(self):
         if self:
             yield from self.left.inorder()
-            yield self.root.noname1()
+            yield self.noname_root()
             yield from self.right.inorder()
 
     def preorder(self):
         if self:
-            yield self.root.noname1()
+            yield self.noname_root()
             yield from self.left.preorder()
             yield from self.right.preorder()
 
@@ -105,7 +105,7 @@ class BinarySearchTree(object):
         if self:
             yield from self.left.postorder()
             yield from self.right.postorder()
-            yield self.root.noname1()
+            yield self.noname_root()
 
     def bfs(self):
         q = deque()
@@ -113,9 +113,12 @@ class BinarySearchTree(object):
         while q:
             cur = q.popleft()
             if cur:
-                yield cur.root.noname1()
+                yield cur.noname_root()
                 q.append(cur.left)
                 q.append(cur.right)
+
+    def noname_root(self):
+        return self.root.noname1()
     
 
 
