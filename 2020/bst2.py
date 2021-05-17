@@ -1,3 +1,5 @@
+from collections import deque
+
 class Node(object):
     def __init__(self, key=None, data=None):
         self.key = key
@@ -106,10 +108,10 @@ class BinarySearchTree(object):
             yield self.root.noname1()
 
     def bfs(self):
-        q = []
+        q = deque()
         q.append(self)
         while q:
-            cur = q.pop(0)
+            cur = q.popleft()
             if cur:
                 yield cur.root.noname1()
                 q.append(cur.left)
