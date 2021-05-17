@@ -122,7 +122,7 @@ class BinarySearchTree(object):
 
     def add_from(self, iterable):
         if hasattr(iterable, 'items'):
-            for key, data in iterable.items:
+            for key, data in iterable.items():
                 self.add(key, data)
         else:
             for item in iterable:
