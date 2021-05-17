@@ -95,14 +95,14 @@ class BinarySearchTree(object):
     def preorder(self):
         if self:
             yield self.root.noname1()
-            yield from self.left.inorder()
-            yield from self.right.inorder()
+            yield from self.left.preorder()
+            yield from self.right.preorder()
 
 
     def postorder(self):
         if self:
-            yield from self.left.inorder()
-            yield from self.right.inorder()
+            yield from self.left.postorder()
+            yield from self.right.postorder()
             yield self.root.noname1()
 
 
