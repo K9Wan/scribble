@@ -119,13 +119,21 @@ class BinarySearchTree(object):
 
     def noname_root(self):
         return self.root.noname1()
+
+    def add_from(self, iterable):
+        if hasattr(iterable, 'items'):
+            for key, data in iterable.items:
+                self.add(key, data)
+        else:
+            for item in iterable:
+                self.add(item)
+        
     
 
 
 if __name__ == "__main__":
     bst1 = BinarySearchTree(lambda x: -x)
     arr = [2, 6, 4, 3, 2, 7, 8, 1, 9, 5]
-    for key in arr:
-        bst1.add(key)
+    bst1.add_from(arr)
     bst1.print_inorder()
     print([*bst1.inorder()])
