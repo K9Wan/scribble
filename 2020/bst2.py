@@ -105,7 +105,15 @@ class BinarySearchTree(object):
             yield from self.right.postorder()
             yield self.root.noname1()
 
-
+    def bfs(self):
+        q = []
+        q.append(self)
+        while q:
+            cur = q.pop(0)
+            if cur:
+                yield cur.root.noname1()
+                q.append(cur.left)
+                q.append(cur.right)
     
 
 
