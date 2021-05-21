@@ -36,11 +36,17 @@ class BinarySearchTree(object):
             self.left = self.new_empty()
             self.right = self.new_empty()
 
-    def kf(self, key):
+    def _kf(self, key):
         try:
             dummy = self.keyfunc(key) > self.keyfunc(key)
             dummy = self.keyfunc(key) < self.keyfunc(key)
             return self.keyfunc(key)
+        except Exception as e:
+            raise KeyError(key) from e
+
+    def _le(self, key, target):
+        try:
+            return self.keyfunc(key) < self.keyfunc(target)
         except Exception as e:
             raise KeyError(key) from e
 
@@ -75,9 +81,9 @@ class BinarySearchTree(object):
         current = self.root.key
         if current == key:
             return self.noname_root()
-        elif self.kf(key) < self.kf(current):
+        elif self._le(key, current):
             return self.left.find(key)
-        elif self.kf(key) > self.kf(current):
+        elif self._kf(key) > self._kf(current):
             return self.right.find(key)
 
     def __contains__(self, key):
