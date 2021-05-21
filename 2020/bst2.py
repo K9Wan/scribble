@@ -44,7 +44,7 @@ class BinarySearchTree(object):
         except Exception as e:
             raise KeyError(key) from e
 
-    def _le(self, key, target):
+    def _lt(self, key, target):
         try:
             return self.keyfunc(key) < self.keyfunc(target)
         except Exception as e:
@@ -81,7 +81,7 @@ class BinarySearchTree(object):
         current = self.root.key
         if current == key:
             return self.noname_root()
-        elif self._le(key, current):
+        elif self._lt(key, current):
             return self.left.find(key)
         elif self._kf(key) > self._kf(current):
             return self.right.find(key)
