@@ -3,10 +3,13 @@
 #include <string.h>
 
 typedef struct {
-  char h[4];
-  char u8[4];
-  int u;
-  int c;
+  unsigned char h[4]; //strcpy-ed 
+  unsigned char u8[4];
+  unsigned u;
+  union {
+    unsigned c;
+    unsigned char cp9[2];
+  };
   union {
     char map[3];
     struct {
@@ -20,7 +23,7 @@ typedef struct {
 int main(void)
 {
   int x = 19, y = 21, z = 28;
-  han *** a = malloc(sizeof *a * x + sizeof **a * x * y + sizeof ***a * x * y * z);
+  han *** a = calloc(1, sizeof *a * x + sizeof **a * x * y + sizeof ***a * x * y * z);
   if(!a)
   {
     fprintf(stderr,"malloc failed\n");
@@ -52,7 +55,17 @@ int main(void)
 
   for(int i=0; i<x*y*z; i++)
   {
-      b[i].u = 0xAC00+i;
+    b[i].u = 0xAC00+i;
+  }
+
+  for(int i=0; i<x*y*z; i++)
+  {
+    unsigned u = b[i].u;
+    b[i].u8[2] = (u&0x3F) | 0x80;
+    u >>= 6;
+    b[i].u8[1] = (u&0x3F) | 0x80;
+    u >>= 6;
+    b[i].u8[0] = u | 0xE0;  //(u&0x0F) & 0xE0;
   }
   
   for(int i=0; i<x; i++)
@@ -66,6 +79,21 @@ int main(void)
       putchar(10);
     }
     putchar(10);
+  }
+/*/
+  a[0][0][0].cp9[1] = "가"[0];
+  a[0][0][0].cp9[0] = "가"[1];
+  for(int i=0; i<2; i++)
+  {
+    printf("%hhx ", "가"[i]);
+  }
+  printf("%#x\n", a[0][0][0].c);
+/*/ //environment: cp949;
+
+  strcpy(a[0][0][0].h, "가");
+  for(int i=0; i<4; i++)
+  {
+    printf("%x ", a[0][0][0].h[i]);
   }
   
   free(a);
