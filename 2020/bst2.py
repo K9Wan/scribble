@@ -1,4 +1,5 @@
 from collections import deque
+import pprint
 
 class Node(object):
     def __init__(self, key=None, data=None):
@@ -29,12 +30,13 @@ class Node(object):
     
 
 class BinarySearchTree(object):
-    def __init__(self, keyfunc=lambda x: x, *, node=None):
+    def __init__(self, keyfunc=lambda x: x, *,
+                 node=None, left=None, right=None):
         self.root = node
         self.keyfunc = keyfunc
         if node is not None:
-            self.left = self.new_empty()
-            self.right = self.new_empty()
+            self.left = self.new_empty() if left is None else left
+            self.right = self.new_empty() if right is None else right
 
     def _kf(self, key):
         try:
@@ -135,7 +137,57 @@ class BinarySearchTree(object):
             for item in iterable:
                 self.add(item)
         
-    
+    def i(self):
+        if self:
+            if self.left and self.right:
+                return (self.left.i(), self.root.key, self.right.i())
+            elif self.left and not self.right:
+                return (self.left.i(), self.root.key)
+            elif self.right and not self.left:
+                return (self.root.key, self.right.i())
+            else:
+                return (self.root.key,)
+
+    def level(self):
+        def _level(self):
+            if self:
+                lev = max(_level(self.left), _level(self.right)) +1
+                return lev
+            else:
+                return 0
+
+        return _level(self)
+
+    def pp(self, idt=0):
+        if idt <= 0:
+            idt = 60 // self.level()
+        return pprint.pprint(self.i(), width=1, indent=idt)
+
+    def __iter__(self):
+        it = []
+        if self:
+            if self.left:
+                it.append(self.left)
+            it.append(self.root.key)
+            if self.right:
+                it.append(self.right)
+        self.it = iter(it)
+        return self
+
+    def __next__(self):
+        return next(self.it)
+
+    def __repr__(self):
+        return f"bst({repr(self.root.key)})"
+
+    def dic(self):
+        '''**bst.dic()'''
+        d = {}
+        d['keyfunc'] = self.keyfunc
+        d['node'] = self.root
+        d['left'] = self.left
+        d['right'] = self.right
+        return d
 
 
 if __name__ == "__main__":
