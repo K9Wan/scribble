@@ -6,6 +6,9 @@ class Node(object):
         self.key = key
         self.data = data
 
+    def __repr__(self):
+        return f'node({self.key})'
+
     def noname1(self):
         '''
         can't find appropriate name:
@@ -66,10 +69,18 @@ class BinarySearchTree(object):
             self.right = self.new_empty()
             return
         parent = self.root.key
+        #'''
         if self.keyfunc(key) < self.keyfunc(parent):
             self.left.add(key, data)
         elif self.keyfunc(key) > self.keyfunc(parent):
             self.right.add(key, data)
+        #'''
+        '''
+        if self._lt(key, parent):
+            self.left.add(key, data)
+        else:
+            self.right.add(key, data)
+        #'''
         '''
         else: pass will ignore duplicates,
         else: self.right.add(...) will accept duplicates.
@@ -166,10 +177,12 @@ class BinarySearchTree(object):
     def __iter__(self):
         it = []
         if self:
-            if self.left:
+            #if self.left:
+            if True:
                 it.append(self.left)
-            it.append(self.root.key)
-            if self.right:
+            it.append(self.root)
+            #if self.right:
+            if True:
                 it.append(self.right)
         self.it = iter(it)
         return self
@@ -178,7 +191,7 @@ class BinarySearchTree(object):
         return next(self.it)
 
     def __repr__(self):
-        return f"bst({repr(self.root.key)})"
+        return f"bst({repr(self.root.key)})" if self else repr(None)
 
     def dic(self):
         '''**bst.dic()'''
@@ -189,6 +202,40 @@ class BinarySearchTree(object):
         d['right'] = self.right
         return d
 
+    def right_rotate1(self):
+        left = self.left
+        self.left = left.right
+        left.right = self
+        return left
+    
+
+def list_recur(iterable):
+    l=[]
+    for i in iterable:
+        try:
+            iter(i)
+        except TypeError:
+            l.append(i)
+        else:
+            l.append(list_recur(i))
+    return l
+
+
+def tuple_recur(iterable):
+    l=[]
+    for i in iterable:
+        try:
+            iter(i)
+        except TypeError:
+            l.append(i)
+        else:
+            l.append(tuple_recur(i))
+    return tuple(l)
+
+def pp(obj):
+    p = pprint.PrettyPrinter(indent=9, width=1)
+    p.pprint(obj)
+
 
 if __name__ == "__main__":
     bst1 = BinarySearchTree(lambda x: -x)
@@ -196,3 +243,9 @@ if __name__ == "__main__":
     bst1.add_from(arr)
     bst1.print_inorder()
     print([*bst1.inorder()])
+    print('describe tree visually (left node in top, root node on left):')
+    bst1.pp()
+    print()
+    print([*bst1])
+    print()
+    pp(list_recur(bst1))
