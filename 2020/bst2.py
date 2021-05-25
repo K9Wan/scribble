@@ -208,6 +208,23 @@ class BinarySearchTree(object):
         left.right = self
         return left
     
+    @staticmethod
+    def from_iter(iterbst):
+        if not iterbst:
+            return None
+        try:
+            left, node, right = iterbst
+        except TypeError:
+            raise TypeError('iterbst must be iterable')
+        except ValueError:
+            raise ValueError('iterable of inappropriate form')
+        if not isinstance(node, Node):
+            root = Node(node)
+        else:
+            root = node
+        lsub = __class__.from_iter(left)
+        rsub = __class__.from_iter(right)
+        return __class__(node=root, left=lsub, right=rsub)
 
 def list_recur(iterable):
     l=[]
