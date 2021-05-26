@@ -30,7 +30,13 @@ class Node(object):
     def noname2(self):
         return tuple(self._noname2())
 
-    
+def is_iter(obj):
+    try:
+        iter(obj)
+    except TypeError:
+        return False
+    else:
+        return True
 
 class BinarySearchTree(object):
     def __init__(self, keyfunc=lambda x: x, *,
@@ -217,7 +223,7 @@ class BinarySearchTree(object):
         except TypeError:
             raise TypeError('iterbst must be iterable')
         except ValueError:
-            raise ValueError('iterable of inappropriate form')
+            raise ValueError('use from_iter2()')
         if not isinstance(node, Node):
             root = Node(node)
         else:
@@ -225,6 +231,64 @@ class BinarySearchTree(object):
         lsub = __class__.from_iter(left)
         rsub = __class__.from_iter(right)
         return __class__(node=root, left=lsub, right=rsub)
+
+    @staticmethod
+    def from_iter2(iterbst):
+        if not iterbst:
+            return None
+        try:
+            iter(iterbst)
+        except TypeError:
+            raise TypeError('iterbst must be iterable')
+        t = tuple(iterbst)
+        if len(t) > 3:
+            raise ValueError('iterable of inappropriate form')
+        if len(t) == 3:
+            left, node, right = t
+        elif len(t) == 2:
+            if is_iter(t[0]):
+                left, node = t
+                right = None
+            else:
+                node, right = t
+                left = None
+        else:
+            node = t[0]
+            left = None
+            right = None
+        if not isinstance(node, Node):
+            root = Node(node)
+        else:
+            root = node
+        lsub = __class__.from_iter2(left)
+        rsub = __class__.from_iter2(right)
+        return __class__(node=root, left=lsub, right=rsub)
+
+    @staticmethod
+    def from_bst(bst):
+        left, node, right = bst
+        d = {}
+        d.update(left=left,node=node,right=right)
+        return __class__(**d)
+
+    def right_rotate2(self):
+        bst = self.from_iter
+        left, q, c = self
+        a, p, b = left
+        right = bst((b, q, c))
+        return bst((a, p, right))
+
+    def __eq__(self, other):
+        if not self and not other:
+            return True
+        elif not self or not other:
+            return False
+        else:
+            return (self.root.key == other.root.key
+                    and self.left == other.left
+                    and self.right == other.right)
+        
+            
 
 def list_recur(iterable):
     l=[]
