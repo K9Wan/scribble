@@ -16,7 +16,7 @@ class Node(object):
         retrieve release discharge bring fetch pick invoke pull ...
         extract enumerate collect attain inspect view look obtain ...
         value data pair content element ...
-        adaptable flexible custom casual normal relaxed informal ...
+        custom casual normal informal ...
         '''
         if self.data is None:
             return self.key
@@ -176,6 +176,8 @@ class BinarySearchTree(object):
         return _level(self)
 
     def pp(self, idt=0):
+        if not self.level():
+            return print(None)
         if idt <= 0:
             idt = 60 // self.level()
         return pprint.pprint(self.i(), width=1, indent=idt)
