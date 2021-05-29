@@ -1,6 +1,8 @@
 from collections import deque
 import pprint
 
+# help from https://stackoverflow.com/questions/67285277/recursive-class-definition-in-python
+
 class Node(object):
     def __init__(self, key=None, data=None):
         self.key = key
