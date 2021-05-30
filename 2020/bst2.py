@@ -107,6 +107,37 @@ class BinarySearchTree(object):
         elif self._kf(key) > self._kf(current):
             return self.right.find(key)
 
+    def delete(self, key):
+        if not self:
+            return self
+        cur = self.root.key
+        if self._kf(key) == self._kf(cur):
+            if self.left and self.right:
+                succ = self.right
+                while succ.left:
+                    succ = succ.left
+                self = self.delete(succ.root.key)
+                self.root = succ.root
+                '''
+                above two lines must not exchange order
+                self.root = succ.root
+                self = self.delete(succ.root.key)
+                will lead to bad recursion
+                because node to be deleted is duplicated,
+                and the duplicated one has both left and right child.
+                '''
+                return self
+            elif not self.left:
+                return self.right
+            else:
+                return self.left
+        elif self._kf(key) < self._kf(cur):
+            self.left = self.left.delete(key)
+            return self
+        else:
+            self.right = self.right.delete(key)
+            return self
+
     def __contains__(self, key):
         return self.find(key) is not None
 
