@@ -1,8 +1,10 @@
 from collections import deque
 import pprint
 
-# help from https://stackoverflow.com/questions/67285277/recursive-class-definition-in-python
-
+''' help from
+https://stackoverflow.com/questions/67285277/recursive-class-definition-in-python
+https://stackoverflow.com/a/54074933
+'''
 class Node(object):
     def __init__(self, key=None, data=None):
         self.key = key
@@ -322,6 +324,158 @@ class BinarySearchTree(object):
             return (self.root.key == other.root.key
                     and self.left == other.left
                     and self.right == other.right)
+
+    def display(self):
+        def _display(self):
+            '''Returns list of str, width, height, horizontal index of root'''
+            if not self.left and not self.right:
+                line = str(self.root.key)
+                width = len(line)
+                height = 1
+                middle = width // 2
+                return [line], width, height, middle
+
+            # only left child
+            if not self.right:
+                lines, n, p, x = _display(self.left)
+                s = str(self.root.key)
+                u = len(s)
+                first_line = (x+1) * ' ' + (n-x-1) * '_' + s
+                next_line = x * ' ' + '/' + (n-x-1+u) * ' '
+                shifted_lines = [line + u * ' ' for line in lines]
+                return [first_line, next_line] + shifted_lines, n+u, p+2, n+u//2
+
+            # only right child
+            if not self.left:
+                lines, m, q, y = _display(self.right)
+                s = str(self.root.key)
+                u = len(s)
+                first_line = s + (y-1) * '_' + (m-y+1 - (not y)) * ' '
+                # -(not y) for revise the warped caused by (0-1) * '_' == ''
+                next_line = (u+y-1) * ' ' + '\\' + (m-y) * ' '
+                shifted_lines = [u * ' ' + line for line in lines]
+                return [first_line, next_line] + shifted_lines, m+u, q+2, u//2
+
+            # two children.
+            left, n, p, x = _display(self.left)
+            right, m, q, y = _display(self.right)
+            s = str(self.root.key)
+            u = len(s)
+            first_line = ((x+1) * ' ' + (n-x-1) * '_' + s
+                          + (y-1) * '_' + (m-y+1 - (not y)) * ' ')
+            next_line = (x * ' ' + '/' + (n-x-1+u+y-1) * ' '
+                          + '\\' + (m-y) * ' ')
+            if p < q:
+                left += [n * ' '] * (q-p)
+            elif q < p:
+                right += [m * ' '] * (p-q)
+            zipped = zip(left, right)
+            lines = [first_line, next_line] + [a + u*' ' + b for a, b in zipped]
+            return lines, n + m + u, max(p, q) + 2, n + u//2
+        lines, *_ = _display(self)
+        for line in lines:
+            print(line)
+
+    def display2(self):
+        def _display(self):
+            '''Returns list of str, width, height, horizontal index of root'''
+            if not self.left and not self.right:
+                line = str(self.root.key)
+                width = len(line)
+                height = 1
+                middle = width // 2
+                return [line], width, height, middle
+
+            # only left child
+            if not self.right:
+                lines, n, p, x = _display(self.left)
+                s = str(self.root.key)
+                u = len(s)
+                first_line = (x+1) * ' ' + (n-x-1) * '_' + s
+                next_line = x * ' ' + '/' + (n-x-1+u) * ' '
+                shifted_lines = [line + u * ' ' for line in lines]
+                return [first_line, next_line] + shifted_lines, n+u, p+2, n+u//2
+
+            # only right child
+            if not self.left:
+                lines, n, p, x = _display(self.right)
+                s = str(self.root.key)
+                u = len(s)
+                first_line = s + x * '_' + (n-x) * ' '
+                next_line = (u+x) * ' ' + '\\' + (n-x-1) * ' '
+                shifted_lines = [u * ' ' + line for line in lines]
+                return [first_line, next_line] + shifted_lines, n+u, p+2, u//2
+
+            # two children.
+            left, n, p, x = _display(self.left)
+            right, m, q, y = _display(self.right)
+            s = str(self.root.key)
+            u = len(s)
+            first_line = ((x+1) * ' ' + (n-x-1) * '_' + s
+                          + y * '_' + (m-y) * ' ')
+            next_line = (x * ' ' + '/' + (n-x-1+u+y) * ' '
+                          + '\\' + (m-y-1) * ' ')
+            if p < q:
+                left += [n * ' '] * (q-p)
+            elif q < p:
+                right += [m * ' '] * (p-q)
+            zipped = zip(left, right)
+            lines = [first_line, next_line] + [a + u*' ' + b for a, b in zipped]
+            return lines, n + m + u, max(p, q) + 2, n + u//2
+        lines, *_ = _display(self)
+        for line in lines:
+            print(line)
+''' below is from original
+    def disp(self):
+        lines, *_ = self._display_aux()
+        for line in lines:
+            print(line)
+
+    def _display_aux(self):
+        """Returns list of strings, width, height, and horizontal coordinate of the root."""
+        # No child.
+        if not self.right and not self.left:
+            line = '%s' % self.root.key
+            width = len(line)
+            height = 1
+            middle = width // 2
+            return [line], width, height, middle
+
+        # Only left child.
+        if not self.right:
+            lines, n, p, x = self.left._display_aux()
+            s = '%s' % self.root.key
+            u = len(s)
+            first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s
+            second_line = x * ' ' + '/' + (n - x - 1 + u) * ' '
+            shifted_lines = [line + u * ' ' for line in lines]
+            return [first_line, second_line] + shifted_lines, n + u, p + 2, n + u // 2
+
+        # Only right child.
+        if not self.left:
+            lines, n, p, x = self.right._display_aux()
+            s = '%s' % self.root.key
+            u = len(s)
+            first_line = s + x * '_' + (n - x) * ' '
+            second_line = (u + x) * ' ' + '\\' + (n - x - 1) * ' '
+            shifted_lines = [u * ' ' + line for line in lines]
+            return [first_line, second_line] + shifted_lines, n + u, p + 2, u // 2
+
+        # Two children.
+        left, n, p, x = self.left._display_aux()
+        right, m, q, y = self.right._display_aux()
+        s = '%s' % self.root.key
+        u = len(s)
+        first_line = (x + 1) * ' ' + (n - x - 1) * '_' + s + y * '_' + (m - y) * ' '
+        second_line = x * ' ' + '/' + (n - x - 1 + u + y) * ' ' + '\\' + (m - y - 1) * ' '
+        if p < q:
+            left += [n * ' '] * (q - p)
+        elif q < p:
+            right += [m * ' '] * (p - q)
+        zipped_lines = zip(left, right)
+        lines = [first_line, second_line] + [a + u * ' ' + b for a, b in zipped_lines]
+        return lines, n + m + u, max(p, q) + 2, n + u // 2
+#'''
         
             
 
@@ -365,3 +519,12 @@ if __name__ == "__main__":
     print([*bst1])
     print()
     pp(list_recur(bst1))
+
+    from random import randint as r
+    b = BinarySearchTree()
+    for _ in range(50):
+        b.add(r(0,100))
+
+    b.display()
+    b.display2()
+
