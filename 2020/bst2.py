@@ -308,6 +308,17 @@ class BinarySearchTree(object):
         d.update(left=left,node=node,right=right)
         return __class__(**d)
 
+    @staticmethod
+    def from_iter_None(t):
+        if t is not None:
+            left, key, right = t
+            root = Node(key)
+            lsub = __class__.from_iter_None(left)
+            rsub = __class__.from_iter_None(right)
+            return __class__(node=root, left=lsub, right=rsub)
+        else:
+            return __class__()
+            
     def right_rotate2(self):
         bst = self.from_iter
         left, q, c = self
@@ -425,6 +436,7 @@ class BinarySearchTree(object):
         lines, *_ = _display(self)
         for line in lines:
             print(line)
+    
 ''' below is from original
     def disp(self):
         lines, *_ = self._display_aux()
@@ -476,8 +488,7 @@ class BinarySearchTree(object):
         lines = [first_line, second_line] + [a + u * ' ' + b for a, b in zipped_lines]
         return lines, n + m + u, max(p, q) + 2, n + u // 2
 #'''
-        
-            
+    
 
 def list_recur(iterable):
     l=[]
@@ -522,7 +533,7 @@ if __name__ == "__main__":
 
     from random import randint as r
     b = BinarySearchTree()
-    for _ in range(50):
+    for _ in range(40):
         b.add(r(0,100))
 
     b.display()
