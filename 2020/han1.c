@@ -74,7 +74,7 @@ int main(void)
     {
       for(int k=0; k<z; k++)
       {
-        printf("%5x", a[i][j][k].u);
+        //printf("%5x", a[i][j][k].u);
       }
       putchar(10);
     }
@@ -89,13 +89,26 @@ int main(void)
   }
   printf("%#x\n", a[0][0][0].c);
 /*/ //environment: cp949;
-
+//*/
+  for(int i=0; i<x; i++)
+  {
+    for(int j=0; j<y; j++)
+    {
+      for(int k=0; k<z; k++)
+      {
+        printf("%s", a[i][j][k].u8);
+      }
+      putchar(10);
+    }
+    putchar(10);
+  }
+//*/ //environment: utf-8
   strcpy(a[0][0][0].h, "가");
   for(int i=0; i<4; i++)
   {
     printf("%x ", a[0][0][0].h[i]);
   }
-  
+  putchar(10);
   free(a);
   
   return 0;
