@@ -98,6 +98,22 @@ class BinarySearchTree(object):
         or can consider it as wrong
         '''
 
+    def added(self, key, data=None):
+        node = Node(key, data)
+        if not self:
+            return self.f_bst((None, node, None))
+        parent = self.root.key
+        left, node, right = self
+        if self.keyfunc(key) < self.keyfunc(parent):
+            left = left.added(key, data)
+            return self.f_bst((left, node, right))
+        elif self.keyfunc(key) > self.keyfunc(parent):
+            right = right.added(key, data)
+            return self.f_bst((left, node, right))
+        else:
+            return self
+        
+
     def find(self, key):
         if not self:
             return None
@@ -139,6 +155,34 @@ class BinarySearchTree(object):
         else:
             self.right = self.right.delete(key)
             return self
+
+    def deleted(self, key):
+        if not self:
+            return self
+        cur = self.root.key
+        if self._kf(key) == self._kf(cur):
+            if self.left and self.right:
+                succ= self.right
+                while succ.left:
+                    succ = succ.left
+                print(succ)
+                dltd = self.deleted(succ.root.key)
+                left, node, right = dltd
+                node = succ.root
+                return self.f_bst((left, node, right))
+            elif not self.left:
+                return self.f_bst(self.right) if self.right else self.new_empty()
+            else:
+                return self.f_bst(self.left) if self.left else self.new_empty()
+        elif self._kf(key) < self._kf(cur):
+            left, node, right = self
+            left = left.deleted(key)
+            return self.f_bst((left, node, right))
+        else:
+            left, node, right = self
+            right = right.deleted(key)
+            return self.f_bst((left, node, right))
+        
 
     def __contains__(self, key):
         return self.find(key) is not None
@@ -309,6 +353,19 @@ class BinarySearchTree(object):
         return __class__(**d)
 
     @staticmethod
+    def from_bst(bst):
+        left, node, right = bst
+        d = {}
+        d.update(left=left,node=node,right=right)
+        return __class__(**d)
+    
+    def f_bst(self, bst):
+        left, node, right = bst
+        d = {}
+        d.update(left=left,node=node,right=right)
+        return __class__(keyfunc=self.keyfunc, **d)
+
+    @staticmethod
     def from_iter_None(t):
         if t is not None:
             left, key, right = t
@@ -320,11 +377,10 @@ class BinarySearchTree(object):
             return __class__()
             
     def right_rotate2(self):
-        bst = self.from_iter
         left, q, c = self
         a, p, b = left
-        right = bst((b, q, c))
-        return bst((a, p, right))
+        right = self.f_bst((b, q, c))
+        return self.f_bst((a, p, right))
 
     def __eq__(self, other):
         if not self and not other:
