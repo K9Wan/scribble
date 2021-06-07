@@ -6,3 +6,5 @@ class Infinity(object):
 		return cls.inf
 	def __gt__(self, other):
 		return True
+	
+	pass
