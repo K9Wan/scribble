@@ -30,7 +30,7 @@ def minimum(t, r=inf, func=lambda x: x):
     pass
 
 class btree:
-  def __init__(self, t=None, func=lambda x: x)
+  def __init__(self, t=None, func=lambda x: x):
       self.t = t
       self.func = func
   def __str__(self):
