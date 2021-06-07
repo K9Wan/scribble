@@ -393,6 +393,8 @@ class BinarySearchTree(object):
                     and self.right == other.right)
 
     def display(self):
+        if not self:
+            return
         def _display(self):
             '''Returns list of str, width, height, horizontal index of root'''
             if not self.left and not self.right:
@@ -444,6 +446,8 @@ class BinarySearchTree(object):
             print(line)
 
     def display2(self):
+        if not self:
+            return
         def _display(self):
             '''Returns list of str, width, height, horizontal index of root'''
             if not self.left and not self.right:
