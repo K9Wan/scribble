@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "alloc.h"
 
 typedef struct Unordered_pointer_list_{
     void ** arr;
