@@ -77,3 +77,30 @@ def prime4(n):
         yield from sieve(x for x in seq if x%p)
     yield from sieve(iter(range(2, n+1)))
 
+def prime4_2(n=None):
+    import itertools
+    def sieve(seq):
+        p = next(seq, None)
+        if not p:
+            return
+        yield p
+        yield from sieve(x for x in seq if x%p)
+    if n is None:
+        yield from sieve(itertools.count(2))
+    else:
+        yield from sieve(iter(range(2, n+1)))
+
+def prime3_3(n=None):
+    from functools import total_ordering
+    import itertools as it
+    if n is None:
+        n = total_ordering(type('Inf',(),{'__ge__':lambda a,b: True}))()
+    def sieve(p, seq):
+        yield from (i for i in seq if i%p)
+    primes = it.count(2)
+    while True:
+        p = next(primes)
+        if p>n: break
+        yield p
+        primes = sieve(p, primes)
+
