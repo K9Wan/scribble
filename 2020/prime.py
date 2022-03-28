@@ -56,3 +56,24 @@ def prime1_2(n):
         else:
             primes.append(i)
     yield from primes
+
+def prime3_2(n):
+    import itertools as it
+    def sieve(p, seq):
+        yield from (i for i in seq if i%p)
+    primes = it.count(2)
+    while True:
+        p = next(primes)
+        if p>n: break
+        yield p
+        primes = sieve(p, primes)
+
+def prime4(n):
+    def sieve(seq):
+        p = next(seq, None)
+        if not p:
+            return
+        yield p
+        yield from sieve(x for x in seq if x%p)
+    yield from sieve(iter(range(2, n+1)))
+
